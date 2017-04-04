@@ -1,0 +1,40 @@
+{
+  "name": "Logic",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "action": {
+      "type": "string"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "enode": {
+      "type": "hasOne", 
+      "model": "Enode",
+      "polymorphic": {
+        "as": "enodeable",
+        "foreignKey": "enodeableId",
+        "discriminator": "enodeableType"
+      }
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

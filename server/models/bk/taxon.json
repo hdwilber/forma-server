@@ -1,0 +1,68 @@
+{
+  "name": "Taxon",
+  "plural": "Taxa",
+  "base": "KunturBase",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "created": {
+      "type": "date"
+    },
+    "updated": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "explorer": {
+      "type": "belongsTo",
+      "model": "Explorer",
+      "foreignKey": "explorerId"
+    },
+    "comments": {
+      "type": "hasMany",
+      "model": "Comment",
+      "foreignKey": "taxonId"
+    },
+    "children:": {
+      "type": "hasMany",
+      "model": "Taxon",
+      "foreignKey": "parentId"
+    },
+    "parent": {
+      "type": "belongsTo",
+      "model": "Taxon",
+      "foreignKey": "parentId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "*",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "ALLOW"
+    },
+    {
+      "accessType": "EXECUTE",
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "create"
+    },
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$owner",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

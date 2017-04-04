@@ -1,0 +1,45 @@
+{
+  "name": "Comment",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "message": {
+      "type": "string",
+      "required": true
+    },
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "explorer": {
+      "type": "belongsTo",
+      "model": "Explorer",
+      "foreignKey": "explorerId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

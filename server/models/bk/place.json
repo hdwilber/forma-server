@@ -1,0 +1,52 @@
+{
+  "name": "Place",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "location": {
+      "type": "geopoint",
+      "required": true
+    },
+    "description": {
+      "type": "string"
+    },
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "explorer": {
+      "type": "belongsTo",
+      "model": "Explorer",
+      "foreignKey": "explorerId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

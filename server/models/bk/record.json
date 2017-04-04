@@ -1,0 +1,61 @@
+{
+  "name": "Record",
+  "base": "KunturBase",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "published": {
+      "type": "boolean",
+      "default": false
+    },
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "comments": {
+      "type": "hasMany",
+      "model": "Comment",
+      "foreignKey": "authorId"
+    },
+    "media": {
+      "type": "hasMany",
+      "model": "MediaFile", 
+      "foreignKey": "recordId"
+    },
+    "explorer": {
+      "type": "belongsTo",
+      "model": "Explorer",
+      "foreignKey": "explorerId"
+    }
+  },
+  "acls": [
+    {
+      "accessType": "WRITE",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "DENY"
+    },
+    {
+      "accessType": "READ",
+      "principalType": "ROLE",
+      "principalId": "$unauthenticated",
+      "permission": "ALLOW"
+    }
+  ],
+  "methods": {}
+}

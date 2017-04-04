@@ -1,0 +1,19 @@
+{
+  "name": "Organism",
+  "base": "KunturBase",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "commonNames": {
+      "type": ["string"]
+    }
+
+  },
+  "validations": [],
+  "relations": {
+  },
+  "acls": [],
+  "methods": {}
+}

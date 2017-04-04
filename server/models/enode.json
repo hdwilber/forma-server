@@ -1,0 +1,57 @@
+{
+  "name": "Enode",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "User",
+      "foreignKey": "userId"
+    },
+    "data": {
+      "type": "belongsTo",
+      "polymorphic":"enodeable"
+    },
+    "parent": {
+      "type": "belongsTo",
+      "model": "Enode",
+      "foreignKey": "parentId"
+    },
+    "prev": {
+      "type": "belongsTo",
+      "model": "Enode",
+      "foreignKey": "prevId"
+    },
+    "next": {
+      "type": "belongsTo",
+      "model": "Enode",
+      "foreignKey": "nextId"
+    },
+    "first": {
+      "type": "belongsTo",
+      "model": "Enode",
+      "foreignKey": "firstId"
+    },
+    "last": {
+      "type": "belongsTo",
+      "model": "Enode",
+      "foreignKey": "lastId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

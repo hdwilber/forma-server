@@ -1,0 +1,22 @@
+{
+  "name": "KunturBase",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {},
+  "acls": [],
+  "methods": {}
+}

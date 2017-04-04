@@ -1,0 +1,25 @@
+{
+  "db": {
+    "name": "db",
+    "connector": "memory"
+  },
+  "mongodb": {
+    "host": "localhost",
+    "port": 0,
+    "url": "",
+    "database": "forma",
+    "password": "",
+    "name": "mongodb",
+    "user": "",
+    "connector": "mongodb"
+  },
+
+  "storage-container": {
+    "name": "storage-container",
+    "debug": true,
+    "connector": "loopback-component-storage",
+    "provider": "filesystem",
+    "root": "storage"
+  }
+}
+

@@ -1,0 +1,51 @@
+{
+  "name": "Project",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "documents": [{
+      "title": { "type": "string"  }
+      }]
+    },
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "User",
+      "foreignKey": "userId"
+    },
+    "first": {
+      "type": "belongsTo",
+      "model": "Enode",
+      "foreignKey": "firstId"
+    },
+    "last": {
+      "type": "belongsTo",
+      "model": "Enode",
+      "foreignKey": "lastId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}
