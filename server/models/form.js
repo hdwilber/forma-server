@@ -1,40 +1,8 @@
 'use strict';
 
-module.exports = function(Widget) {
-
-  Widget.CONTAINER_TYPES = [
-  {
-    code: 'panel',
-    name: 'Panel'
-  }
-  ];
-  Widget.INPUT_TYPES = [{
-    code: 'input',
-    name: 'Input',
-    subTypes: [
-      {code: 'numeric', name: 'Numeric'},
-      {code: 'text', name: 'Text'},
-      {code: 'date', name: 'Date'},
-    ]
-  },
-  {
-    code: 'selection',
-    name: 'Selection',
-    subTypes: [
-      {
-        code: 'simple', name: 'Simple'
-      },
-      {  code: 'level', name: 'Level'}
-    ]
-  }
-  ];
-
-
-  Widget.listTypes = function (next) {
-    next(null, {containers: Widget.CONTAINER_TYPES, input: Widget.INPUT_TYPES});
-  };
-
-  Widget.observe('before save', function (ctx, next) {
+module.exports = function(Form) {
+  Form.observe('before save', function (ctx, next) {
+    console.log(ctx.instance);
     if (ctx.isNewInstance) {
       ctx.instance.created = new Date();
       ctx.instance.updated = ctx.instance.created;
@@ -44,7 +12,7 @@ module.exports = function(Widget) {
     next();
   });
 
-  Widget.prototype.appendIn = function (e, cb) {
+  Form.prototype.appendIn = function (e, cb) {
     if (e.firstId == null) {
       e.firstId = this.id;
       e.lastId = this.id;
@@ -57,7 +25,7 @@ module.exports = function(Widget) {
       });
     } else {
       var _this = this;
-      Widget.findById(e.lastId, function (err, last) {
+      Form.findById(e.lastId, function (err, last) {
         if (!err) {
           last.append(_this,function (err2, _this) {
             if (!err2) {
@@ -80,8 +48,7 @@ module.exports = function(Widget) {
     }
   };
 
-
-  Widget.prototype.append = function (tar, cb) {
+  Form.prototype.append = function (tar, cb) {
     if( this.nextId == null ) {
       this.nextId = tar.id;
       this.save({}, function (err, ori2) {
@@ -91,7 +58,7 @@ module.exports = function(Widget) {
         })
       });
     } else {
-      Widget.findById(this.nextId, function (err, next) {
+      Form.findById(this.nextId, function (err, next) {
         if (!err) {
           next.nextId = tar.id;
           next.save({}, function (err2, next2) {
@@ -107,25 +74,27 @@ module.exports = function(Widget) {
     }
   };
 
-  Widget.afterRemote('create', function (ctx,widget, next) {
-    if (widget.parentId) {
-      Widget.findById(widget.parentId, function (err, p) {
-        if (!err) {
-          widget.appendIn(p, function (err2, aux) {
-            if (!err2) {
-              next();
-            }
-          });
-        }
-      });
-    } else {
-      next();
-    }
+  Form.afterRemote('create', function (ctx,form, next) {
+    console.log(form);
+    next();
+    //if (form.parentId) {
+      //Form.findById(form.parentId, function (err, p) {
+        //if (!err) {
+          //form.appendIn(p, function (err2, aux) {
+            //if (!err2) {
+              //next();
+            //}
+          //});
+        //}
+      //});
+    //} else {
+      //next();
+    //}
   });
 
-  function retrieveAndPush(a, widget, cb) {
-    if (widget.nextId != null) {
-      Widget.findById(widget.nextId, function (err, next) {
+  function retrieveAndPush(a, form, cb) {
+    if (form.nextId != null) {
+      Form.findById(form.nextId, function (err, next) {
         if (!err) {
           a.push(next);
           retrieveAndPush(a, next, cb);
@@ -137,11 +106,11 @@ module.exports = function(Widget) {
       cb(null);
     }
   }
-  Widget.listFrom = function (id, context, next) {
-    Widget.findById(id, function (err, widget) {
+  Form.listFrom = function (id, context, next) {
+    Form.findById(id, function (err, form) {
       if (!err) {
-        var ret = [widget];
-        retrieveAndPush(ret, widget, function(err2) {
+        var ret = [form];
+        retrieveAndPush(ret, form, function(err2) {
           if (!err2) {
             console.log(ret);
             next(null, ret);
@@ -154,9 +123,9 @@ module.exports = function(Widget) {
       }
     });
   };
-  Widget.prototype.listChildren = function (cb) {
+  Form.prototype.listChildren = function (cb) {
     if (this.firstId) {
-      Widget.findById(this.firstId, function (err, first) {
+      Form.findById(this.firstId, function (err, first) {
         if (!err) {
           var ret = [first];
           retrieveAndPush(ret, first, function(err2) {
@@ -173,11 +142,10 @@ module.exports = function(Widget) {
     }
   };
 
-  Widget.listChildren = function (id, recursive, context, next) {
-    console.log(recursive);
-    Widget.findById(id, function (err, widget) {
+  Form.listChildren = function (id, context, next) {
+    Form.findById(id, function (err, form) {
       if (!err) {
-        widget.listChildren(function (err, children) {
+        form.listChildren(function (err, children) {
           next(null, children);
         });
       } else {
@@ -185,37 +153,27 @@ module.exports = function(Widget) {
       }
     });
   };
-  Widget.remoteMethod('listFrom', {
-    description: 'List Widgets starting from selected Widget',
+  Form.remoteMethod('listFrom', {
+    description: 'List Forms starting from selected form',
     accepts: [
       { arg: 'id', type: 'string', required: true },
       { arg: 'context', type: 'object', http: {source: 'context'} }
     ],
     returns: { 
-      arg: 'Widget[]', type: 'array', root: true
+      arg: 'Form[]', type: 'array', root: true
     },
     http: {path: '/:id/listFrom', verb: 'get'}
   });
 
-  Widget.remoteMethod('listChildren', {
-    description: 'List Widgets in Widget',
+  Form.remoteMethod('listChildren', {
+    description: 'List Forms in form',
     accepts: [
       { arg: 'id', type: 'string', required: true },
-      { arg: 'recursive', type: 'object', http: { source: 'query' } },
       { arg: 'context', type: 'object', http: {source: 'context'} }
     ],
     returns: { 
-      arg: 'Widget[]', type: 'array', root: true
+      arg: 'Form[]', type: 'array', root: true
     },
     http: {path: '/:id/children', verb: 'get'}
-  });
-  Widget.remoteMethod('listTypes', {
-    description: 'List of Widgets types and subtypes',
-    accepts: [
-    ],
-    returns: {
-      arg: 'WidgetTypes[]', type: 'array', root: true
-    },
-    http: { path: '/types', verb: 'get' }
   });
 };

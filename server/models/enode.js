@@ -255,6 +255,9 @@ module.exports = function(Enode) {
       }
     });
   }
+
+
+
   Enode.remoteMethod('listFrom', {
     description: 'List Enodes starting from selected Enode',
     accepts: [
@@ -265,6 +268,18 @@ module.exports = function(Enode) {
       arg: 'Enode[]', type: 'array', root: true
     },
     http: {path: '/:id/list', verb: 'get'}
+  });
+
+  Enode.remoteMethod('appendIn', {
+    description: 'List Enodes starting from selected Enode',
+    accepts: [
+      { arg: 'id', type: 'string', required: true },
+      { arg: 'context', type: 'object', http: {source: 'context'} }
+    ],
+    returns: { 
+      arg: 'Enode[]', type: 'array', root: true
+    },
+    http: {path: '/:id/appendIn', verb: 'post'}
   });
 
   //Enode.remoteMethod('prepend', {

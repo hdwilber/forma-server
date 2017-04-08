@@ -1,0 +1,24 @@
+{
+  "name": "LabelData",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+  },
+  "validations": [],
+  "relations": {
+    "widget": {
+      "type": "hasOne", 
+      "model": "Widget",
+      "polymorphic": {
+        "as": "widgeteable",
+        "foreignKey": "widgeteableId",
+        "discriminator": "widgeteableType"
+      }
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

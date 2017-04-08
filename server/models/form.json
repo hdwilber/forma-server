@@ -1,5 +1,5 @@
 {
-  "name": "Widget",
+  "name": "Form",
   "base": "PersistedModel",
   "idInjection": true,
   "options": {
@@ -9,55 +9,50 @@
     "code": {
       "type": "string"
     },
-    "label": {
-      "type": "string"
+    "created": {
+      "type": "date",
+      "required": true
     },
-    "type": {
-      "type": "string"
-    },
-    "subType": {
-      "type": "string"
+    "updated": {
+      "type": "date",
+      "required": true
     }
   },
   "validations": [],
   "relations": {
-    "form": {
+    "documentId": {
       "type": "belongsTo",
-      "model": "Form",
+      "model": "Document",
+      "foreignKey": "documentId"
+    },
+    "widgets": {
+      "type": "hasMany", 
+      "model": "Widget",
       "foreignKey": "formId"
-    },
-    "label": {
-      "type": "belongsTo", 
-      "model": "LabelWidget",
-      "foreignKey": "labelId"
-    },
-    "data": {
-      "type": "belongsTo",
-      "polymorphic":"widgeteable"
     },
     "parent": {
       "type": "belongsTo",
-      "model": "Widget",
+      "model": "Form",
       "foreignKey": "parentId"
     },
     "prev": {
       "type": "belongsTo",
-      "model": "Widget",
+      "model": "Form",
       "foreignKey": "prevId"
     },
     "next": {
       "type": "belongsTo",
-      "model": "Widget",
+      "model": "Form",
       "foreignKey": "nextId"
     },
     "first": {
       "type": "belongsTo",
-      "model": "Widget",
+      "model": "Form",
       "foreignKey": "firstId"
     },
     "last": {
       "type": "belongsTo",
-      "model": "Widget",
+      "model": "Form",
       "foreignKey": "lastId"
     }
   },

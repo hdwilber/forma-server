@@ -1,0 +1,42 @@
+{
+  "name": "Document",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "code": {
+      "type": "string"
+    },
+    "name": {
+      "type": "string"
+    },
+    "title": {
+      "type": "string"
+    },
+    "created": {
+      "type": "date",
+      "required": true
+    },
+    "updated": {
+      "type": "date",
+      "required": true
+    }
+  },
+  "validations": [],
+  "relations": {
+    "user": {
+      "type": "belongsTo",
+      "model": "Person",
+      "foreignKey": "personId"
+    },
+    "forms": {
+      "type": "hasMany", 
+      "model": "Form",
+      "parentId": "documentId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

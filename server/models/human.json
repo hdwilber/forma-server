@@ -1,5 +1,5 @@
 {
-  "name": "Human",
+  "name": "Person",
   "plural": "People",
   "base": "User",
   "idInjection": true,

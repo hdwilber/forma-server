@@ -1,6 +1,6 @@
 {
   "name": "Logic",
-  "base": "PersistedModel",
+  "base": "Enode",
   "idInjection": true,
   "options": {
     "validateUpsert": true
